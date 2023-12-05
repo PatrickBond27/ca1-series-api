@@ -55,5 +55,3 @@ app.use('/api/series', require('./routes/series'));
 app.listen(port, () => {
     console.log(`Example app listening on port: ${port}`)
 });
-
-module.exports = app;
