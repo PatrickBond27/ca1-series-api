@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
 const port = 3001;
+
 const cors = require('cors');
 
 require('dotenv').config();
