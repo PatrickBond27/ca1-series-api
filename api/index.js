@@ -6,7 +6,7 @@ const port = 3001;
 const cors = require('cors');
 
 require('dotenv').config();
-require('./configs/db.js')();
+require('../configs/db.js')();
 
 app.use(cors());
 
