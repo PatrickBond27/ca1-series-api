@@ -4,11 +4,11 @@ const app = express();
 const port = 3001;
 
 const cors = require('cors');
-
 require('dotenv').config();
 require('../configs/db.js')();
-
 app.use(cors());
+
+
 
 app.use(express.json());
 app.set('view engine', 'html');
