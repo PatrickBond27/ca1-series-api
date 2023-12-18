@@ -63,4 +63,4 @@ const fileFilter = (req, file, cb) => {
 //     }
 // });
 
-module.exports = multer({ fileFilter, storage});
+module.exports = multer({ fileFilter, storage });

@@ -124,7 +124,7 @@ const createData = (req, res) => {
     }
 
     Serie.create(inputData) // creating new Series data
-    .then(data => {
+    .then((data) => {
         console.log(`New Serie Created`, data); // displaying message when data is created
         res.status(201).json(data);
     })
@@ -210,20 +210,20 @@ const updateData = (req, res) => {
 };
 
 // Deletes the selected image from the path
-const deleteImage = (filename) => {
-    let path = `/public/uploads/${filename}`;
+// const deleteImage = (filename) => {
+//     let path = `/public/uploads/${filename}`;
   
-    fs.access(path, fs.constants.F_OK, (err) => {
-      if (err) {
-        console.log(err); // Logging errors if the file doesn't exist
-        return;
-      }
-      fs.unlink(path, (err) => {
-        if (err) throw err; // Handles the file deletion error
-        console.log(`${filename} was deleted`); // Logs the file deletion success
-      });
-    });
-  };
+//     fs.access(path, fs.constants.F_OK, (err) => {
+//       if (err) {
+//         console.log(err); // Logging errors if the file doesn't exist
+//         return;
+//       }
+//       fs.unlink(path, (err) => {
+//         if (err) throw err; // Handles the file deletion error
+//         console.log(`${filename} was deleted`); // Logs the file deletion success
+//       });
+//     });
+//   };
 
   // Deletes the selected data
 const deleteData = (req, res) => {
