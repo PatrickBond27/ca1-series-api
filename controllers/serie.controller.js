@@ -129,7 +129,7 @@ const createData = (req, res) => {
         res.status(201).json(data);
     })
     // catch any errors including validation
-    .catch((er)r => {
+    .catch((err) => {
         if (err.name === "ValidationError") {
             // console.error('Validation Error!!', err);
             res.status(422).json(err);
