@@ -109,7 +109,7 @@ const createData = (req, res) => {
     console.log(req.body);
     let inputData = req.body; // creating an inputData variable when creating new Series data
     if (req.file) {
-        inputData.image_path = req.file.key; // Setting image path if file is uploaded
+        inputData.image_path = req.file.filename; // Setting image path if file is uploaded
       } else {
         return res.status(422).json({
           mgs: 'Image not uploaded',
@@ -171,7 +171,7 @@ const updateData = (req, res) => {
     let data = req.body; // requests the whole data
 
     if (req.file) {
-        body.image_path = req.file.key; // Updates image path if the file is uploaded
+        body.image_path = req.file.filename; // Updates image path if the file is uploaded
     }
 
     Serie.findByIdAndUpdate(id, data, {
