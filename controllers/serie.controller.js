@@ -129,7 +129,7 @@ const createData = (req, res) => {
         res.status(201).json(data);
     })
     // catch any errors including validation
-    .catch(err => {
+    .catch((er)r => {
         if (err.name === "ValidationError") {
             // console.error('Validation Error!!', err);
             res.status(422).json(err);
@@ -174,18 +174,18 @@ const updateData = (req, res) => {
     Serie.findByIdAndUpdate(id, data, {
         new: false,
     })
-    .then(data => {
-        deleteImage(data.image_path); // Deletes the old image file
+    .then((data) => {
         if (data) {
+            deleteImage(data.image_path); // Deletes the old image file
             res.status(201).json(data); // Sends updated data if founded
         } else {
-        deleteImage(body.data.image_path); // Deletes new image file if no data was found
+        deleteImage(body.image_path); // Deletes new image file if no data was found
         res.status(404).json({
-          message: `Serie with id: ${id} not found`,
+          "message": `Serie with id: ${id} not found`,
         }); // Sending message if no data found for update
       }
     })
-    .catch(err => {
+    .catch((err) => {
         if(err.name === 'ValidationError'){
             res.status(422).json(err);
         }
@@ -234,7 +234,7 @@ const deleteData = (req, res) => {
     Serie.findByIdAndDelete({
         _id: id
       })
-    .then(data => {
+    .then((data) => {
         console.log('data', data);
         if(data) {
             imagePath = data.image_path; // Stores image path before deletion
@@ -247,7 +247,7 @@ const deleteData = (req, res) => {
         deleteImage(imagePath); // Deleting associated image file
         res.status(200).json({ msg: `Serie ${id} deleted!` });
     })
-    .catch(err => {
+    .catch((err) => {
         if (err.name === "CastError") {
             res.status(404).json({msg: `Serie ${id} not found`});
         }
