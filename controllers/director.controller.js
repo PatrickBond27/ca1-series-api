@@ -55,11 +55,11 @@ const createData = (req, res) => {
     let inputData = req.body; // creating an inputData variable when creating new Series data
 
     Director.create(inputData) // creating new Directors data
-    .then(data => {
+    .then((data) => {
         console.log(`New Director Created`, data);
         res.status(201).json(data);
     })
-    .catch(err => {
+    .catch((err) => {
         if (err.name === "ValidationError") {
             res.status(422).json(err);
         }
@@ -97,10 +97,10 @@ const updateData = (req, res) => {
     let data = req.body; // requests the whole data
 
     Director.findByIdAndUpdate(id, data, {
-        new: true,
+        new: false
     })
-    .then(newData => {
-        res.status(201).json(newData);
+    .then((data) => {
+        res.status(201).json(data);
     })
     .catch(err => {
         if (err.name === "CastError") {
