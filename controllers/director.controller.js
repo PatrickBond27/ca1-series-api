@@ -1,4 +1,6 @@
 const Director = require('../models/director.model');
+const Serie = require('../models/serie.model');
+const User = require('../models/user.model');
 
 const readData = (req, res) => {
 

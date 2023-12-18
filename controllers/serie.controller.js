@@ -1,11 +1,14 @@
 const Serie = require('../models/serie.model');
+const Director = require('../models/director.model');
+const User = require('../models/user.model');
 const fs = require('fs');
+
+const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
 const deleteImage = async (filename) => {
 
     if(process.env.STORAGE_ENGINE === 'S3'){
-        const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
-        const s3 =new S3Client({
+        const s3 = new S3Client({
             region: process.env.MY_AWS_REGION,
             credentials: {
                 accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
@@ -105,23 +108,23 @@ const createData = (req, res) => {
     // console.log(req.file);
     console.log(req.body);
     let inputData = req.body; // creating an inputData variable when creating new Series data
-    // if (req.file) {
-    //     inputData.image_path = req.file.filename; // Setting image path if file is uploaded
-    //   } else {
-    //     return res.status(422).json({
-    //       mgs: 'Image not uploaded',
-    //     }); // Sending error if image is required but not uploaded
-    //   }
-
-    if(req.file){
-        inputData.image_path = process.env.STORAGE_ENGINE === 'S3' ? req.file.key : req.file.filename;
-    }
-    // include the following else if image is required
-    else {
+    if (req.file) {
+        inputData.image_path = req.file.key; // Setting image path if file is uploaded
+      } else {
         return res.status(422).json({
-            msg: "Image not uploaded!!"
-        });
-    }
+          mgs: 'Image not uploaded',
+        }); // Sending error if image is required but not uploaded
+      }
+
+    // if(req.file){
+    //     inputData.image_path = process.env.STORAGE_ENGINE === 'S3' ? req.file.key : req.file.filename;
+    // }
+    // // include the following else if image is required
+    // else {
+    //     return res.status(422).json({
+    //         msg: "Image not uploaded!!"
+    //     });
+    // }
 
     Serie.create(inputData) // creating new Series data
     .then((data) => {
