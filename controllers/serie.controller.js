@@ -1,6 +1,45 @@
 const Serie = require('../models/serie.model');
 const fs = require('fs');
 
+const deleteImage = async (filename) => {
+
+    if(process.env.STORAGE_ENGINE === 'S3'){
+        const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+        const s3 =new S3Client({
+            region: process.env.MY_AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
+            }
+        });
+
+        try{
+           const data = await s3.send(new DeleteObjectCommand({ Bucket: process.env.MY_AWS_BUCKET, Key: filename}));
+           console.log("Success. Object deleted.", data);
+        }
+        catch(err){
+            console.error(err);
+        }
+    }
+    else {
+        let path = `public/uploads/${filename}`;
+
+        fs.access(path, fs.constants.F_OK, (err) => {
+            if(err) {
+                console.error(err);
+                return;
+            }
+
+            fs.unlink(path, (err) => {
+                if(err) throw err;
+                console.log(`${filename} was deleted!`);
+            });
+        });
+    }
+
+};
+
+
 // requests the Series data from the database
 const readData = (req, res) => {
 
@@ -73,6 +112,16 @@ const createData = (req, res) => {
     //       mgs: 'Image not uploaded',
     //     }); // Sending error if image is required but not uploaded
     //   }
+
+    if(req.file){
+        inputData.image_path = process.env.STORAGE_ENGINE === 'S3' ? req.file.key : req.file.filename;
+    }
+    // include the following else if image is required
+    else {
+        return res.status(422).json({
+            msg: "Image not uploaded!!"
+        });
+    }
 
     Serie.create(inputData) // creating new Series data
     .then(data => {
