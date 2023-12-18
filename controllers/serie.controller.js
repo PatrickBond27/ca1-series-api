@@ -171,7 +171,7 @@ const updateData = (req, res) => {
     let data = req.body; // requests the whole data
 
     if (req.file) {
-        body.image_path = req.file.filename; // Updates image path if the file is uploaded
+        data.image_path = req.file.filename; // Updates image path if the file is uploaded
     }
 
     Serie.findByIdAndUpdate(id, data, {
