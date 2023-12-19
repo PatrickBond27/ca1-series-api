@@ -3,44 +3,44 @@ const Director = require('../models/director.model');
 const User = require('../models/user.model');
 const fs = require('fs');
 
-const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+// const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
-const deleteImage = async (filename) => {
+// const deleteImage = async (filename) => {
 
-    if(process.env.STORAGE_ENGINE === 'S3'){
-        const s3 = new S3Client({
-            region: process.env.MY_AWS_REGION,
-            credentials: {
-                accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
-            }
-        });
+//     if(process.env.STORAGE_ENGINE === 'S3'){
+//         const s3 = new S3Client({
+//             region: process.env.MY_AWS_REGION,
+//             credentials: {
+//                 accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+//                 secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
+//             }
+//         });
 
-        try{
-           const data = await s3.send(new DeleteObjectCommand({ Bucket: process.env.MY_AWS_BUCKET, Key: filename}));
-           console.log("Success. Object deleted.", data);
-        }
-        catch(err){
-            console.error(err);
-        }
-    }
-    else {
-        let path = `public/uploads/${filename}`;
+//         try{
+//            const data = await s3.send(new DeleteObjectCommand({ Bucket: process.env.MY_AWS_BUCKET, Key: filename}));
+//            console.log("Success. Object deleted.", data);
+//         }
+//         catch(err){
+//             console.error(err);
+//         }
+//     }
+//     else {
+//         let path = `public/uploads/${filename}`;
 
-        fs.access(path, fs.constants.F_OK, (err) => {
-            if(err) {
-                console.error(err);
-                return;
-            }
+//         fs.access(path, fs.constants.F_OK, (err) => {
+//             if(err) {
+//                 console.error(err);
+//                 return;
+//             }
 
-            fs.unlink(path, (err) => {
-                if(err) throw err;
-                console.log(`${filename} was deleted!`);
-            });
-        });
-    }
+//             fs.unlink(path, (err) => {
+//                 if(err) throw err;
+//                 console.log(`${filename} was deleted!`);
+//             });
+//         });
+//     }
 
-};
+// };
 
 // requests the Series data from the database
 const readData = (req, res) => {
